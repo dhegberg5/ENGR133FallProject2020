@@ -22,7 +22,7 @@ Assignment Information
 '''
 import numpy
 import matplotlib as lib
-
+import matplotlib.pyplot as plt
 file_name = input("filename: ") #takes in a picture from the user who inputs the name of a file
 variable = lib.image.imread(file_name) #matplot will read the image into an array
 def dotproduct(color): #dotproduct will convert image into greyscale
@@ -31,7 +31,8 @@ def dotproduct(color): #dotproduct will convert image into greyscale
 
 greyscalematrix = dotproduct(variable)
 
-
+plt.imshow(greyscalematrix, cmap=plt.get_cmap('gray'), vmin=0, vmax=1)
+plt.show()
 
 
 '''
