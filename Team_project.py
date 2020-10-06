@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 file_name = input("filename: ") #takes in a picture from the user who inputs the name of a file
 variable = lib.image.imread(file_name) #matplot will read the image into an array
 def dotproduct(color): #dotproduct will convert image into greyscale
-    dot = numpy.dot(color[...,:3], [0.2989, 0.587, 0.114]) #Formula for converting into greyscale, takes each term and calculates dotproduct
+    dot = numpy.dot(color[...,:3], [0.2989, 0.5870, 0.1140]) #Formula for converting into greyscale, takes each term and calculates dotproduct
     return dot #returns dot product
 
 greyscalematrix = dotproduct(variable)
