@@ -23,55 +23,54 @@ Assignment Information
 import numpy as np
 import matplotlib as lib
 import matplotlib.pyplot as plt
-# file_name = input("filename: ") #takes in a picture from the user who inputs the name of a file
-variable = lib.image.imread("Coins.PNG") #matplot will read the image into an array
+file_name = input("filename: ") #takes in a picture from the user who inputs the name of a file
+variable = lib.image.imread(file_name) #matplot will read the image into an array
 def greyscaleConverter(colorMatrix): #dotproduct will convert image into greyscale
     dot = np.dot(colorMatrix[...,:3], [0.2126, 0.7152, 0.0722]) #Formula for converting into greyscale, takes each term and calculates dotproduct
     return dot #returns dot product
-def convolution(imageMatrix, convoluteMatrix):
+def convolution(imageMatrix, convoluteMatrix, divisible):
     pad_length = (len(convoluteMatrix[0])-1)/2
     paddedImage = np.pad(imageMatrix, int(pad_length), mode="constant")
     finalImage = imageMatrix
-    # print(imageMatrix)
-    # print(paddedImage)
-    # print(sk)
-    
-    # return paddedImage
+    tx = int(pad_length)
+    ty = int(pad_length)
     for row in imageMatrix:
         for pixel in row:
-            pixelIndex = np.where(row == pixel)[0]+1
-            rowIndex = np.where(imageMatrix == row)[0]+1
-            sumOfConvolves = 0
             kernel = convoluteMatrix
-            x=0
-            y=0
+            x=-int(pad_length)
+            y=-int(pad_length)
+            try:
+                for krow in range(0,len(convoluteMatrix)):
+                    for kpixel in range(0,len(convoluteMatrix)):
+                        kernel[x][y] = paddedImage[tx+x][ty+y]
+                        x = x + 1
+                    y = y + 1
+                    x=-int(pad_length) 
+                totalDot = 0
+                for i in range(0, len(convoluteMatrix)):
+                    dotInitial = np.dot(kernel[i], convoluteMatrix[i])
+                    totalDot += dotInitial/divisible
+                print(f"{round(100*tx/imageMatrix.shape[1],2)}% Complete")
+                finalImage[tx][ty] = totalDot
+            except IndexError:
+                break
             
-            for krow in kernel:
-                for kpixel in krow:
-                    print(rowIndex[0])
-                    # print(krow)
-                    kernel[y][x] = paddedImage[rowIndex[0]+y][pixelIndex[0]+x]
-                    x = x +1
-                y=y+1
-            print(kernel)  
-            # for i in range(0, len(convoluteMatrix)):
-            #     print(sumOfConvolves)
-            #     sumOfConvolves += np.convolve(kernel, convoluteMatrix)
-            finalImage[rowIndex-1][pixelIndex-1] = sumOfConvolves
-                
-    # print(finalImage)
+            ty = ty + 1 
+        tx = tx + 1  
+        ty = int(pad_length)
+    return finalImage
                 
             
             
         
              
-sk = [[1,1,1],[1,1,1],[1,1,1]]
+sk = [[1,4,6,4,1],[4,16,24,16,4],[6,24,36,24,6],[4,16,24,16,4],[1,4,6,4,1]]
+# sk = [[1,1,1],[1,1,1],[1,1,1]]
 
-    
 greyscalematrix = greyscaleConverter(variable)
-blurred = convolution(greyscalematrix,sk)
-# plt.imshow(blurred, cmap=plt.get_cmap('gray'), vmin=0, vmax=1)
-# plt.show()
+blurred = convolution(greyscalematrix,sk,51.2)
+plt.imshow(blurred, cmap=plt.get_cmap('gray'), vmin=0, vmax=1)
+plt.show()
 
 
 '''
