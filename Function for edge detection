@@ -1,0 +1,5 @@
+# Hey this is just a basic function for the Sobel Edge Enhancement. 
+def edgeDetection(paddedMatrix):
+    [gx, gy] = np.gradient(paddedMatrix)
+    g = np.sqrt(gx**2 + gy**2)
+    return g
