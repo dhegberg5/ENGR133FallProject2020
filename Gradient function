@@ -1,0 +1,5 @@
+# numpy has a built in function gradient() that automatically takes the rate of change of a matrix, and the output has the same dimensions as the inputted matrix. For example, if you put in a 2 dimensional matrix, it output a 2 dimensional matrix as the output.
+def edgeDetection(paddedMatrix):
+    [gx, gy] = np.gradient(np.array(paddedMatrix, dtype = int), axis = 1)
+    g = np.sqrt(gx**2 + gy**2)
+    return g       
